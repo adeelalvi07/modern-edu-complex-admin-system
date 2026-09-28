@@ -483,21 +483,23 @@ class DatabaseManager:
 
         # 2. Default Admin User
         admin_role = self.fetch_one("SELECT id FROM roles WHERE name = 'Admin'")
-        admin_user = self.fetch_one("SELECT id FROM users WHERE username = 'admin'")
+        init_username = os.getenv("ADMIN_USERNAME", "admin").strip()
+        init_password = os.getenv("ADMIN_PASSWORD", "admin123")
+        admin_user = self.fetch_one("SELECT id FROM users WHERE username = :u", {"u": init_username})
         if not admin_user and admin_role:
-            hashed_pwd = bcrypt.hashpw("admin123".encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
+            hashed_pwd = bcrypt.hashpw(init_password.encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
             self.execute_query(
                 """INSERT INTO users (username, password_hash, full_name, email, role_id)
                    VALUES (:u, :p, :fn, :em, :rid)""",
                 {
-                    "u": "admin",
+                    "u": init_username,
                     "p": hashed_pwd,
-                    "fn": "System Administrator",
-                    "em": "admin@school.local",
+                    "fn": os.getenv("ADMIN_NAME", "System Administrator"),
+                    "em": os.getenv("ADMIN_EMAIL", "admin@school.local"),
                     "rid": admin_role["id"]
                 }
             )
-            logger.info("Default admin user created ('admin' / 'admin123').")
+            logger.info(f"Administrator user created ('{init_username}').")
 
         # 3. Academic Session
         cur_session = self.fetch_one("SELECT id FROM academic_sessions WHERE is_current = 1")

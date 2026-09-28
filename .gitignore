@@ -1,0 +1,38 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Local environment & secrets
+.env
+.secret_key
+
+# SQLite database files
+*.db
+*.sqlite
+*.sqlite3
+database/school_system.db
+
+# Executables & distribution builds
+cloudflared.exe
+*.exe
+dist/
+build/
+*.spec
+
+# Backups & generated files
+backups/*
+exports/*.pdf
+exports/*.xlsx
+logs/*.log
+
+# Virtual environments
+venv/
+.venv/
+env/
+
+# IDE & OS files
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

@@ -1,0 +1,13 @@
+services:
+  - type: web
+    name: modern-edu-sms
+    env: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python run_web.py --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: DB_TYPE
+        value: sqlite
+      - key: SCHOOL_NAME
+        value: MODERN EDUCATIONAL COMPLEX

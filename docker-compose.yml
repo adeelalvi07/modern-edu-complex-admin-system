@@ -1,0 +1,17 @@
+version: '3.8'
+
+services:
+  sms-web:
+    build: .
+    container_name: modern_edu_sms_web
+    restart: always
+    ports:
+      - "8000:8000"
+    environment:
+      - DB_TYPE=sqlite
+      - SCHOOL_NAME=MODERN EDUCATIONAL COMPLEX
+    volumes:
+      - ./database:/app/database
+      - ./backups:/app/backups
+      - ./exports:/app/exports
+      - ./logs:/app/logs
